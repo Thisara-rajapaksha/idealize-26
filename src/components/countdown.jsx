@@ -8,7 +8,7 @@ import WalkingSpider from "./spiderwalk";
 const CONFIG = {
   // Use ISO 8601 format. By default, this uses the user's local timezone.
   openDate: new Date("2026-05-22T11:30:00"),
-  closeDate: new Date("2026-08-03T00:00:00"), // Updated to June 21, 2026
+  closeDate: new Date("2026-08-04T00:00:00"), // Updated to June 21, 2026
   
   labels: {
     notOpenMsg: "Prototype submissions are not yet open. Stay tuned.",
