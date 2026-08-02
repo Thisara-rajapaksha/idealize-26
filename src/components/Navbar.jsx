@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import logo from "../assets/logo.svg";
 
+// ==========================================
+// --- CENTRAL CONFIGURATION ---
+// ==========================================
+const CONFIG = {
+  merchUrl: "https://click.aiesec.lk/cs/idealize-2026-merch-pack", // <-- set the real merch link here
+};
+
 const links = [
   { label: "About", id: "about" },
   { label: "Categories", id: "categories" },
@@ -72,6 +79,9 @@ export default function Navbar({ activeSection, scrollToSection }) {
           box-shadow: 0 0 22px rgba(77,96,189,0.55);
         }
         .register-btn:active { transform: scale(0.96); }
+        .register-btn .material-symbols-outlined {
+          font-size: 1rem;
+        }
 
         .logo-slot {
           /* Reserves the same space as before so layout doesn't shift */
@@ -124,15 +134,23 @@ export default function Navbar({ activeSection, scrollToSection }) {
           ))}
         </div>
 
-        {/* Desktop register */}
-        <button className="register-btn hidden lg:block" onClick={() => window.open("https://tally.so/r/Np4V0p", "_blank")}>
-          Register Now
+        {/* Desktop merch CTA */}
+        <button
+          className="register-btn hidden lg:flex items-center gap-2"
+          onClick={() => window.open(CONFIG.merchUrl, "_blank")}
+        >
+          <span className="material-symbols-outlined">shopping_cart</span>
+          Buy Merch
         </button>
 
-        {/* Mobile: register + hamburger */}
+        {/* Mobile: merch + hamburger */}
         <div className="flex lg:hidden items-center gap-3">
-          <button className="register-btn" onClick={() => window.open("https://tally.so/r/Np4V0p", "_blank")}>
-            Register
+          <button
+            className="register-btn flex items-center gap-2"
+            onClick={() => window.open(CONFIG.merchUrl, "_blank")}
+          >
+            <span className="material-symbols-outlined">shopping_cart</span>
+            Merch
           </button>
           <button onClick={() => setMenuOpen(!menuOpen)} className="text-white p-1">
             <span className="material-symbols-outlined">

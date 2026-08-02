@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import Navbar from "./components/Navbar";
+import Merch from "./components/Merch";
 import Leaderboard from "./components/leaderboard";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -14,7 +15,18 @@ import Countdown from "./components/countdown";
 import Memories from "./components/memory";
 import SpiderLoader from "./components/Loader";
 
-const SECTIONS = ["hero", "about", "categories", "awards", "timeline", "memories", "partners", "faq"];
+const SECTIONS = [
+  "hero",
+  "merch",
+  "highlights",
+  "about",
+  "categories",
+  "awards",
+  "timeline",
+  "memories",
+  "partners",
+  "faq",
+];
 
 export default function App() {
   const containerRef = useRef(null);
@@ -72,7 +84,7 @@ export default function App() {
         },
         {
           root: null, // observe relative to viewport
-          threshold: 0.4 // trigger when 40% of section is visible
+          threshold: 0.4, // trigger when 40% of section is visible
         }
       );
       obs.observe(el);
@@ -84,12 +96,11 @@ export default function App() {
 
   return (
     <div className="dark bg-slate-950 text-white min-h-screen selection:bg-red-500 selection:text-white">
-
       {/* 1. Spider-Man Preloader Overlay */}
-      {/* Preloader */}
       <div
-        className={`fixed inset-0 z-[9999] flex flex-col items-center justify-start bg-slate-950 transition-all duration-1000 ease-in-out ${loading ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-          }`}
+        className={`fixed inset-0 z-[9999] flex flex-col items-center justify-start bg-slate-950 transition-all duration-1000 ease-in-out ${
+          loading ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+        }`}
       >
         {/* Full height container so rope appears pinned to top */}
         <div className="w-full h-2/3">
@@ -106,16 +117,26 @@ export default function App() {
 
       {/* 2. Main Website Content */}
       <div className={`transition-opacity duration-1000 ${loading ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
-
         <Navbar activeSection={activeSection} scrollToSection={scrollToSection} />
 
         <main id="scroll-container" ref={containerRef} className="relative">
-
           <section className="snap-section min-h-screen" ref={registerRef("hero")}>
             <Hero />
-            <Leaderboard/>
-            <Countdown />
             <ScrollArrow onClick={() => scrollToNext("hero")} />
+          </section>
+
+          <section className="snap-section min-h-screen" ref={registerRef("merch")}>
+            <Merch />
+            <ScrollArrow onClick={() => scrollToNext("merch")} />
+          </section>
+
+          {/* Leaderboard + Countdown now share a proper snap-section, just like every
+              other block, so they participate in scroll-snap, IntersectionObserver
+              tracking, and the SECTIONS nav flow instead of being skipped. */}
+          <section className="snap-section min-h-screen" ref={registerRef("highlights")}>
+            <Leaderboard />
+            <Countdown />
+            <ScrollArrow onClick={() => scrollToNext("highlights")} />
           </section>
 
           <section className="snap-section min-h-screen" ref={registerRef("about")}>
@@ -143,7 +164,7 @@ export default function App() {
             <ScrollArrow onClick={() => scrollToNext("memories")} />
           </section>
 
-          {/* Note: In your original code, "partners" was duplicated. 
+          {/* Note: In your original code, "partners" was duplicated.
               I kept both as requested but they share the same ID. */}
           <section className="snap-section min-h-screen" ref={registerRef("partners")}>
             <Sponsors />
@@ -157,7 +178,6 @@ export default function App() {
               <ScrollArrow isLast onClick={scrollToTop} />
             </div>
           </section>
-
         </main>
       </div>
     </div>
